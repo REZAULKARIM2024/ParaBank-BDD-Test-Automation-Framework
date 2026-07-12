@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Banking Accessibility Suite" parallel="none">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    <test name="Accessibility Tests">
+        <packages>
+            <package name="accessibility"/>
+        </packages>
+    </test>
+</suite>

@@ -1,0 +1,249 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bank.qa</groupId>
+    <artifactId>banking-automation</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <selenium.version>4.27.0</selenium.version>
+        <cucumber.version>7.18.0</cucumber.version>
+        <webdrivermanager.version>5.9.2</webdrivermanager.version>
+        <testng.version>7.10.2</testng.version>
+        <restassured.version>5.5.0</restassured.version>
+        <axe.version>4.9.1</axe.version>
+        <allure.version>2.29.0</allure.version>
+        <!-- ডিফল্ট UI/Cucumber suite; ওভাররাইড করতে: mvn test -DsuiteFile=testng-api.xml -->
+        <suiteFile>testng.xml</suiteFile>
+
+        <!-- ডিফল্ট ট্যাগ ফিল্টার (২০২৬-০৭-১০ আপডেট): প্লেইন "mvn test" এখন সবসময় সবগুলো
+             ৫৭টা UI (Cucumber) সিনারিও চালায় - ৮টা ডকুমেন্টেড @knownIssue সহ - কোনো
+             -D ফ্ল্যাগ ছাড়াই। আগে ডিফল্টে "not @knownIssue" ছিল যা ৮টা বাদ দিয়ে ৪৯টা
+             চালাতো (ক্লিন/গ্রিন রানের জন্য), কিন্তু এখন পূর্ণ ৫৭টার সংখ্যা বজায় রাখাই
+             অগ্রাধিকার। শুধু নন-knownIssue ৪৯টা চালাতে চাইলে ম্যানুয়ালি ওভাররাইড করুন:
+             mvn test -Dcucumber.filter.tags="not @knownIssue" -->
+        <cucumber.filter.tags></cucumber.filter.tags>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-devtools-v131</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
+        <!-- ===================== API Testing (RestAssured) ===================== -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Contract Testing: JSON schema validation -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${restassured.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ===================== Accessibility Testing (axe-core) ===================== -->
+        <dependency>
+            <groupId>com.deque.html.axe-core</groupId>
+            <artifactId>selenium</artifactId>
+            <version>${axe.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ===================== Allure Reporting ===================== -->
+        <!-- Cucumber adapter: hooks into the Cucumber plugin list (see TestNGCucumberRunner)
+             to capture Gherkin-level detail (feature/scenario/step, tags, attachments). -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- TestNG adapter: registered as a <listener> in the plain-TestNG suite files
+             (testng-api.xml, testng-accessibility.xml, testng-performance.xml) - NOT in
+             testng.xml, since Cucumber scenarios are already captured richly by
+             allure-cucumber7-jvm above and adding both would duplicate results. -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteFile}</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
+                        <!-- Allure reads this to know where to write raw result JSON; matches
+                             allure.properties (src/test/resources) and the plugins below. -->
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <!-- ===================== Allure Reports =====================
+                 Not bound to any lifecycle phase (deliberate - it must run AFTER a test
+                 run, on demand, not as part of every "mvn test"). Workflow:
+                   1) mvn test                      -> generates target/allure-results/*.json
+                   2) mvn allure:report              -> builds a static site at target/site/allure-maven-plugin
+                   3) mvn allure:serve               -> builds + opens a live report in your browser
+                 Requires the Allure commandline tool, which this plugin downloads
+                 automatically the first time it runs. -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- ===================== Polished Cucumber HTML Reports =====================
+                 This is IN ADDITION to the plain "html:target/cucumber-report.html" formatter
+                 already configured in TestNGCucumberRunner - that one is Cucumber's own basic
+                 built-in report. This plugin (masterthought/cucumber-reporting) reads the
+                 "json:target/cucumber-report.json" formatter output and builds a much richer
+                 dashboard (charts, tag breakdown, feature/scenario drill-down, trends).
+                 Also not bound to a phase - run manually after a Cucumber (UI) suite:
+                   mvn net.masterthought:maven-cucumber-reporting:generate
+                 Output: target/cucumber-html-reports/overview-features.html
+                 Only meaningful after running the default Cucumber suite (testng.xml) - the
+                 API/accessibility/performance suites don't produce cucumber-report.json. -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.8.1</version>
+                <configuration>
+                    <projectName>Banking Automation - ParaBank UI Suite</projectName>
+                    <outputDirectory>${project.build.directory}/cucumber-html-reports</outputDirectory>
+                    <jsonFiles>
+                        <param>**/cucumber-report.json</param>
+                    </jsonFiles>
+                    <checkBuildResult>false</checkBuildResult>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--
+        চালানোর নিয়ম (README.md এও বিস্তারিত আছে):
+
+        NOTE (২০২৬-০৭-১০ আপডেট): এখন প্লেইন "mvn test" ডিফল্টভাবেই সবগুলো ৫৭টা UI
+        (Cucumber) সিনারিও চালায় - ৮টা ডকুমেন্টেড @knownIssue সহ (উপরে <properties>
+        এ cucumber.filter.tags দেখুন) - কোনো -D ফ্ল্যাগ ছাড়াই। নিচের সব কমান্ডই -D
+        দিয়ে সেই ডিফল্ট ওভাররাইড করে।
+
+        সব ৫৭টা UI (Cucumber) টেস্ট (এখন এটাই ডিফল্ট আচরণ, explicit ফ্ল্যাগ ছাড়াই):
+                                        : mvn test
+
+        শুধু নন-knownIssue ৪৯টা ("ক্লিন/গ্রিন" গেট - @knownIssue বাদে)
+                                        : mvn test -Dcucumber.filter.tags="not @knownIssue"
+        শুধু Smoke                    : mvn test -Dcucumber.filter.tags="@smoke"
+        শুধু Regression                : mvn test -Dcucumber.filter.tags="@regression"
+        শুধু Negative                  : mvn test -Dcucumber.filter.tags="@negative"
+
+        Only the documented known-issue scenarios (run periodically to see if
+        ParaBank has fixed any of them - a pass here means "go remove the
+        @knownIssue tag, it's fixed now"):
+                                        : mvn test -Dcucumber.filter.tags="@knownIssue"
+
+        ক্রস-ব্রাউজার (Firefox)        : mvn test -Dbrowser=firefox
+        API টেস্ট                     : mvn test -DsuiteFile=testng-api.xml
+        Accessibility টেস্ট           : mvn test -DsuiteFile=testng-accessibility.xml
+        Performance smoke টেস্ট       : mvn test -DsuiteFile=testng-performance.xml
+
+        রিপোর্টিং (mvn test চালানোর পরে):
+        TestNG রিপোর্ট (built-in, auto-generated, কোনো কমান্ড লাগে না)
+                                        : test-output/index.html, test-output/emailable-report.html
+        Cucumber HTML রিপোর্ট (built-in, basic, auto-generated)
+                                        : target/cucumber-report.html
+        Cucumber HTML রিপোর্ট (polished dashboard, ম্যানুয়ালি জেনারেট করতে হবে)
+                                        : mvn net.masterthought:maven-cucumber-reporting:generate
+                                          -> target/cucumber-html-reports/overview-features.html
+        Allure রিপোর্ট (raw results auto-written by mvn test; view/build ম্যানুয়ালি)
+                                        : mvn allure:serve   (লাইভ, ব্রাউজারে খুলবে)
+                                          mvn allure:report  (স্ট্যাটিক সাইট: target/site/allure-maven-plugin)
+    -->
+</project>

@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Banking API Suite" parallel="none">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    <test name="ParaBank API Tests">
+        <!-- "destructive" group (Database cleanDB/initializeDB, JMS listener toggling) is
+             excluded by default because it mutates the SHARED PUBLIC demo server.
+             See DatabaseApiTests.java / JmsApiTests.java for how to opt in safely. -->
+        <groups>
+            <run>
+                <exclude name="destructive"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="api"/>
+        </packages>
+    </test>
+</suite>
