@@ -163,6 +163,15 @@ Run the UI suite plus the API/accessibility/performance suites back-to-back (wit
 - Expand the JMeter plan from a template into executed, reported Load/Stress/Spike/Endurance runs against a non-production target
 - Data-driven scenarios from Excel/JSON (an `ExcelUtils` helper already exists as a starting point)
 
+---
+
+## ⚡ Modern QA, AI, & DevSecOps Implementation
+
+This framework is built using modern engineering methodologies, leveraging my technical training from **Google & DeepLearning.AI**:
+
+*   **AI-Assisted Engineering:** Utilized Generative AI and advanced Prompt Engineering (GitHub Copilot, Claude) to accelerate test case scaffolding, streamline Page Object Model (POM) development, and optimize custom Java/JavaScript automation methods.
+*   **Security-Aware Testing (DevSecOps):** Integrated core security validation principles within the test workflows. The framework goes beyond functional testing to validate REST API JWT token authorization, verify input sanitization to guard against SQL Injection vulnerabilities, and ensure secure data handling during backend assertions.
+
 ## 👨‍💻 Author
 
 Rezaul Karim — QA Automation Engineer / SDET
