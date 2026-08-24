@@ -1,6 +1,6 @@
 # ParaBank – BDD Test Automation Framework (Selenium · Cucumber · TestNG · RestAssured · Allure)
 
-![Java](https://img.shields.io/badge/Java-11-orange) ![Selenium](https://img.shields.io/badge/Selenium-4.27.0-43B02A) ![Cucumber](https://img.shields.io/badge/Cucumber-7.18.0-23D96C) ![TestNG](https://img.shields.io/badge/TestNG-7.10.2-yellow) ![Maven](https://img.shields.io/badge/Build-Maven-C71A36) ![Tests](https://img.shields.io/badge/Tests-69%20UI%20%2B%2059%20API%2Fa11y%2Fperf-blue) ![Pass rate](https://img.shields.io/badge/Pass%20rate-100%25-brightgreen) ![Report](https://img.shields.io/badge/Report-Allure-orange)
+[![CI](https://github.com/REZAULKARIM2024/ParaBank-BDD-Test-Automation-Framework/actions/workflows/ci.yml/badge.svg)](https://github.com/REZAULKARIM2024/ParaBank-BDD-Test-Automation-Framework/actions/workflows/ci.yml) ![Java](https://img.shields.io/badge/Java-11-orange) ![Selenium](https://img.shields.io/badge/Selenium-4.27.0-43B02A) ![Cucumber](https://img.shields.io/badge/Cucumber-7.18.0-23D96C) ![TestNG](https://img.shields.io/badge/TestNG-7.10.2-yellow) ![Maven](https://img.shields.io/badge/Build-Maven-C71A36) ![Tests](https://img.shields.io/badge/Tests-69%20UI%20%2B%2059%20API%2Fa11y%2Fperf-blue) ![Pass rate](https://img.shields.io/badge/Pass%20rate-100%25-brightgreen) ![Report](https://img.shields.io/badge/Report-Allure-orange)
 
 A multi-layer test automation framework demonstrating real QA/SDET practice against a live, publicly shared banking application — UI/BDD, REST API, accessibility, and performance testing in one project, with 69 automated UI scenarios, 59 supporting API/accessibility/performance tests, and a running, dated ledger of confirmed live-application defects at its core.
 
@@ -104,6 +104,7 @@ UI Smoke (11) and Known live-app defects (14) are subsets of the 69 total UI sce
 - ✔️ **Flakiness controls** — incognito/private browser sessions per scenario, plus WAF-aware assertions for security-negative cases
 - ✔️ **Confirmed-defect ledger** — the `@knownIssue` tagging pattern, with dated comments, doubling as regression canaries against the live application
 - ✔️ **Triple-layer reporting** — TestNG native + Cucumber HTML (basic + polished dashboard) + Allure
+- ✔️ **CI on every push/PR** — GitHub Actions runs the API and accessibility suites (the deterministic, non-live-UI-dependent layers) automatically; TestNG and Allure results are uploaded as build artifacts on every run
 
 ## ▶️ Running the Tests
 
@@ -157,7 +158,6 @@ Run the UI suite plus the API/accessibility/performance suites back-to-back (wit
 
 ## 📈 Future Enhancements
 
-- Add GitHub Actions CI to run the API/accessibility suites (the deterministic, non-live-UI-dependent ones) on every push
 - Enable parallel execution across feature files
 - Add a security (DAST) scan, e.g. an OWASP ZAP baseline pass against a staging deployment
 - Expand the JMeter plan from a template into executed, reported Load/Stress/Spike/Endurance runs against a non-production target
